@@ -124,7 +124,7 @@ def DownloadSDL():
 def DownloadSPDLOG():
     response = requests.get("https://api.github.com/repos/gabime/spdlog/releases/latest")
     versionNo = response.json()["name"]
-    versionNo = versionNo.replace('Version ', ' ').strip()
+    versionNo = versionNo.replace('Version', '').replace('version', '').strip() # For SPDLOG 1.16.0, they kept 'V' in lower case, whereas in the past it's always been uppercase.
 
     if os.path.exists(f'{os.getcwd()}/../DrEngine/vendor/spdlog'):
         f = open(f'{os.getcwd()}/../DrEngine/vendor/spdlog/version.txt')

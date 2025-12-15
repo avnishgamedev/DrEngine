@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "ECS.h"
-#include "../Log.h"
+#include <string>
 
 namespace DrEngine::ECS
 {
@@ -18,7 +17,7 @@ namespace DrEngine::ECS
     {
     public:
         
-        Entity(std::string inName, Batch inBatch = Player)
+        Entity(const std::string& inName, const Batch& inBatch = Player)
         {
             name = inName;
             batch = inBatch;
@@ -30,14 +29,19 @@ namespace DrEngine::ECS
             batch = inBatch;
         }
         
-        ~Entity()
+        virtual ~Entity()
         {
-            
+            for (auto c : Components)
+            {
+                delete c;
+            }
         }
 
+        bool IsInit() const { return bInit; };
+        
         virtual void BeginPlay()
         {
-            
+            bInit = true;
         }
 
         virtual void Update(float deltaTime)
@@ -125,11 +129,13 @@ namespace DrEngine::ECS
         void SetBatch(Batch inBatch) { batch = inBatch; };
         
     private:
-        Batch batch;
+        Batch batch{Player};
         
         std::string name;
         
         std::vector<Component*> Components;
+
+        bool bInit{false};
         
     };
 }

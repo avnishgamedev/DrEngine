@@ -35,6 +35,7 @@ namespace DrEngine {
 		/* Getters and Setters */
 		Window* GetWindow() const { return window; }
 		
+		static ECS::Manager* GetManager() { return manager; };
 		static InputManager* GetInputManager() { return inputManager; };
 		static Uint32 GetMilliseconds() { return Milliseconds; };
 		static SDL_Event& GetEvent() { return event; };

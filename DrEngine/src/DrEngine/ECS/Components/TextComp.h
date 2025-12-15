@@ -2,19 +2,20 @@
 
 #include "../ECS.h"
 #include "SDL_ttf.h"
-#include "../Math/Math.h"
+#include "../../Math/Math.h"
 
 namespace DrEngine::ECS
 {
     class DRENGINE_API TextComp : public Component
     {
     public:
-        TextComp(const std::string& font_path, int font_size, const std::string& message, const Color& color = Color(0, 0, 255))
+        TextComp(const std::string& font_path, int font_size, const std::string& message, const Vector2D& inLoc = Vector2D(20, 20), const Color& color = Color(0, 0, 255))
         {
             fontPath = font_path;
             fontSize = font_size;
             text = message;
             textColor = color;
+            Location = inLoc;
 
             RefreshTexture();
         }

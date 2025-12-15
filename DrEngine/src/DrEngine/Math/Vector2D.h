@@ -31,6 +31,10 @@ namespace DrEngine
             y = inY;
         }
 
+        void Translate(const Vector2D& inVec) { SetX(X() + inVec.X()); SetY(Y() + inVec.Y()); };
+        void TranslateX(float inVal) { SetX(X() + inVal); };
+        void TranslateY(float inVal) { SetY(Y() + inVal); };
+        
         float X() const { return x; }
         float Y() const { return y; }
         void SetX(float inVal) { x = inVal; }

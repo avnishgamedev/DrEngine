@@ -23,6 +23,10 @@ namespace DrEngine::ECS
         void BeginPlay() override
         {
             transform = GetOwner()->GetComponentByClass<TransformComponent>();
+            if (!transform)
+            {
+                DE_ERROR("Transform component not found for AnimationComp on Entity {0}", GetOwner()->GetName());
+            }
 
             tex = new Texture(filePath);
             

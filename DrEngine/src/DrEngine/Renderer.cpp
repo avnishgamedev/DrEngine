@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+#include "Enums.h"
 #include "SDL.h"
 #include "Window.h"
 #include "Structs.h"
@@ -38,7 +39,7 @@ namespace DrEngine
         delete rect;
     }
 
-    void Renderer::RenderTexture(const Vector2D& Location, const Vector2D& Scale, const Texture* texture, const SDL_Rect* inSrcRect)
+    void Renderer::RenderTexture(const Vector2D& Location, const Vector2D& Scale, const Texture* texture, const SDL_Rect* inSrcRect, TextureFlip inFlip)
     {
         SDL_Rect* rect = new SDL_Rect();
         rect->x = static_cast<int>(Location.X());
@@ -48,7 +49,21 @@ namespace DrEngine
             
         if (texture && texture->IsValid())
         {
-            SDL_RenderCopy(SDLrenderer, texture->GetSDLTexture(), inSrcRect, rect);
+            SDL_RendererFlip flip = SDL_FLIP_NONE;
+            switch (inFlip)
+            {
+            case None:
+                flip = SDL_FLIP_NONE;
+                break;
+            case Horizontal:
+                flip = SDL_FLIP_HORIZONTAL;
+                break;
+            case Vertical:
+                flip = SDL_FLIP_VERTICAL;
+                break;
+            }
+            
+            SDL_RenderCopyEx(SDLrenderer, texture->GetSDLTexture(), inSrcRect, rect, 0.0, nullptr, flip);
         }
         else
         {

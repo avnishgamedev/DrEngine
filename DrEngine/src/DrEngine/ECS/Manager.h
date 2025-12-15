@@ -23,16 +23,21 @@ namespace DrEngine::ECS
             return e;
         }
         
-        void DestroyEntity(Entity*& e)
+        void DestroyEntity(const Entity* e)
         {
-            for (auto itr = Entities.begin(); itr < Entities.end(); ++itr)
+            if (e)
             {
-                if (*itr == e)
+                for (auto itr = Entities.begin(); itr < Entities.end(); ++itr)
                 {
-                    EntityBitset[std::distance(Entities.begin(), itr)] = false;
-                    Entities.erase(itr);
-                    delete e;
-                    e = nullptr;
+                    if (*itr == e)
+                    {
+                        delete *itr;
+                        e = nullptr;
+                        *itr = nullptr;
+                        EntityBitset[std::distance(Entities.begin(), itr)] = false;
+                        Entities.erase(itr);
+                        Entities.at(std::distance(Entities.begin(), itr)) = nullptr;
+                    }
                 }
             }
         }
@@ -41,8 +46,11 @@ namespace DrEngine::ECS
         {
             for (auto e : Entities)
             {
-                if (e)
-                    e->Update(deltaTime);
+                if (e != nullptr)
+                {
+                    if (e->IsInit())
+                        e->Update(deltaTime);
+                }
             }
             
             for (const auto c : CollisionComps)
@@ -68,20 +76,23 @@ namespace DrEngine::ECS
             std::vector<Entity*> PlayerCompEntities;
             for (auto e : Entities)
             {
-                switch (e->GetBatch())
+                if (e)
                 {
-                case Tile:
-                    TileEntities.push_back(e);
-                    break;
-                case Prop:
-                    PropEntities.push_back(e);
-                    break;
-                case Player:
-                    PlayerEntities.push_back(e);
-                    break;
-                case PlayerComp:
-                    PlayerCompEntities.push_back(e);
-                    break;
+                    switch (e->GetBatch())
+                    {
+                    case Tile:
+                        TileEntities.push_back(e);
+                        break;
+                    case Prop:
+                        PropEntities.push_back(e);
+                        break;
+                    case Player:
+                        PlayerEntities.push_back(e);
+                        break;
+                    case PlayerComp:
+                        PlayerCompEntities.push_back(e);
+                        break;
+                    }
                 }
             }
 
@@ -89,19 +100,23 @@ namespace DrEngine::ECS
 
             for (auto e : TileEntities)
             {
-                e->Draw(deltaTime);
+                if (e)
+                    e->Draw(deltaTime);
             }
             for (auto e : PropEntities)
             {
-                e->Draw(deltaTime);
+                if (e)
+                    e->Draw(deltaTime);
             }
             for (auto e : PlayerEntities)
             {
-                e->Draw(deltaTime);
+                if (e)
+                    e->Draw(deltaTime);
             }
             for (auto e : PlayerCompEntities)
             {
-                e->Draw(deltaTime);
+                if (e)
+                    e->Draw(deltaTime);
             }
         }
 

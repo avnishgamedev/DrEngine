@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ECS.h"
-#include "../Log.h"
 
 namespace DrEngine::ECS
 {

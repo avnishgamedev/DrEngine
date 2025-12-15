@@ -17,7 +17,7 @@ namespace DrEngine::ECS
             transform = GetOwner()->GetComponentByClass<TransformComponent>();
             if (!transform)
             {
-                DE_WARN("TransformComponent not found");
+                DE_ERROR("Transform component not found for CollisionComp on Entity {0}", GetOwner()->GetName());
             }
 
             Application::AddCollisionComp(this);

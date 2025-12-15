@@ -24,7 +24,7 @@ namespace DrEngine::ECS
             transform = GetOwner()->GetComponentByClass<TransformComponent>();
             if (!transform)
             {
-                DE_ERROR("Failed to get Transform Component");
+                DE_ERROR("Transform component not found for SpriteComponent on Entity {0}", GetOwner()->GetName());
             }
         }
 
@@ -32,15 +32,20 @@ namespace DrEngine::ECS
         {
             if (texture)
             {
-                Application::GetRenderer()->RenderTexture(transform->GetLocation(), transform->GetScale(), texture);
+                Application::GetRenderer()->RenderTexture(transform->GetLocation(), transform->GetScale(), texture, nullptr, flip);
             }
             else
             {
                 DE_ERROR("texture not valid!");
             }
         }
+
+        void SetFlip(TextureFlip inFlip) { flip = inFlip; };
+        
     private:
 
+        TextureFlip flip{None};
+        
         TransformComponent* transform{nullptr};
 
         Texture* texture;

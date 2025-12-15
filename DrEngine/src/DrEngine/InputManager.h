@@ -108,7 +108,7 @@ namespace DrEngine
         void ResetMouseDelta() { MouseDeltaPos = Vector2D::Zero(); };
 
         template <class T>
-        void AddCallback(T* ref, void (T::* const inCallback)(MouseKey))
+        void AddMouseClickCallback(T* ref, void (T::* const inCallback)(MouseKey))
         {
             mouseCallbacks.push_back(std::bind(inCallback, ref, std::placeholders::_1));
         }

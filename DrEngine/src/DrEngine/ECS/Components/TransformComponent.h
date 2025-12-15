@@ -25,6 +25,10 @@ namespace DrEngine::ECS
             Location += Velocity * deltaTime;
         }
 
+        void SetLocation(Vector2D inVal) { Location = inVal; };
+        void SetScale(Vector2D inVal) { Scale = inVal; };
+        void SetVelocity(Vector2D inVal) { Velocity = inVal; };
+        
         Vector2D GetLocation() const { return Location; };
         Vector2D GetScale() const { return Scale; };
         Vector2D GetVelocity() const { return Velocity; };
