@@ -3,6 +3,8 @@
 #include <memory>
 
 #include "Core.h"
+
+#define FMT_UNICODE 0
 #include "spdlog/spdlog.h"
 
 namespace DrEngine {

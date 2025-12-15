@@ -2,7 +2,7 @@
 
 #include "../ECS.h"
 #include "SDL_ttf.h"
-#include "../Math/Math.h"
+#include "../../Math/Math.h"
 
 namespace DrEngine::ECS
 {

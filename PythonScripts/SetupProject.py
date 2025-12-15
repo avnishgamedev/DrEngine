@@ -39,8 +39,21 @@ except ImportError as e:
 os.chdir(f'{os.getcwd()}/PythonScripts')
 
 def DownloadSDL():
-    response = requests.get("https://api.github.com/repos/libsdl-org/SDL/releases/latest")
-    versionNo = response.json()["name"]
+    # Get all releases and find the latest SDL2 version (not SDL3)
+    response = requests.get("https://api.github.com/repos/libsdl-org/SDL/releases")
+    releases = response.json()
+    
+    # Find the latest SDL2 release (version starting with "2.")
+    versionNo = None
+    for release in releases:
+        version = release["name"]
+        if version.startswith("2."):
+            versionNo = version
+            break
+    
+    if versionNo is None:
+        print("Error: Could not find any SDL2 releases")
+        exit()
 
     if os.path.exists(f'{os.getcwd()}/../DrEngine/vendor/SDL2'):
         f = open(f'{os.getcwd()}/../DrEngine/vendor/SDL2/version.txt')
@@ -58,6 +71,20 @@ def DownloadSDL():
 
     url = f'https://github.com/libsdl-org/SDL/releases/download/release-{versionNo}/SDL2-devel-{versionNo}-VC.zip'
     req = requests.get(url)
+
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading SDL2: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
 
     filename = url.split('/')[-1]
 
@@ -116,6 +143,20 @@ def DownloadSPDLOG():
     url = f'https://github.com/gabime/spdlog/archive/refs/tags/v{versionNo}.zip'
     req = requests.get(url)
 
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading SPDLOG: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded SPDLOG content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
+
     filename = url.split('/')[-1]
 
     with open(filename, 'wb') as output_file:
@@ -161,6 +202,20 @@ def DownloadPremake():
     url = f'https://github.com/premake/premake-core/releases/download/v5.0.0-beta2/premake-5.0.0-beta2-windows.zip'
     req = requests.get(url)
 
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading Premake: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded Premake content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
+
     filename = url.split('/')[-1]
 
 
@@ -197,8 +252,21 @@ def DownloadPremake():
     print('Premake installed successfully!')
 
 def DownloadSDLttf():
-    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_ttf/releases/latest")
-    versionNo = response.json()["name"]
+    # Get all releases and find the latest SDL2_ttf version (not SDL3_ttf)
+    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_ttf/releases")
+    releases = response.json()
+    
+    # Find the latest SDL2_ttf release (version starting with "2.")
+    versionNo = None
+    for release in releases:
+        version = release["name"]
+        if version.startswith("2."):
+            versionNo = version
+            break
+    
+    if versionNo is None:
+        print("Error: Could not find any SDL2_ttf releases")
+        exit()
 
     if os.path.exists(f'{os.getcwd()}/../DrEngine/vendor/SDL2_ttf'):
         f = open(f'{os.getcwd()}/../DrEngine/vendor/SDL2_ttf/version.txt')
@@ -216,6 +284,20 @@ def DownloadSDLttf():
 
     url = f'https://github.com/libsdl-org/SDL_ttf/releases/download/release-{versionNo}/SDL2_ttf-devel-{versionNo}-VC.zip'
     req = requests.get(url)
+
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading SDL2_ttf: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded SDL2_ttf content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
 
     filename = url.split('/')[-1]
 
@@ -253,8 +335,21 @@ def DownloadSDLttf():
     print('SDL2_ttf installed Successfully!')
 
 def DownloadSDLimage():
-    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_image/releases/latest")
-    versionNo = response.json()["name"]
+    # Get all releases and find the latest SDL2_image version (not SDL3_image)
+    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_image/releases")
+    releases = response.json()
+    
+    # Find the latest SDL2_image release (version starting with "2.")
+    versionNo = None
+    for release in releases:
+        version = release["name"]
+        if version.startswith("2."):
+            versionNo = version
+            break
+    
+    if versionNo is None:
+        print("Error: Could not find any SDL2_image releases")
+        exit()
 
     if os.path.exists(f'{os.getcwd()}/../DrEngine/vendor/SDL2_image'):
         f = open(f'{os.getcwd()}/../DrEngine/vendor/SDL2_image/version.txt')
@@ -272,6 +367,20 @@ def DownloadSDLimage():
 
     url = f'https://github.com/libsdl-org/SDL_image/releases/download/release-{versionNo}/SDL2_image-devel-{versionNo}-VC.zip'
     req = requests.get(url)
+
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading SDL2_image: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded SDL2_image content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
 
     filename = url.split('/')[-1]
 
@@ -309,8 +418,21 @@ def DownloadSDLimage():
     print('SDL2_image installed Successfully!')
 
 def DownloadSDLmixer():
-    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_mixer/releases/latest")
-    versionNo = response.json()["name"]
+    # Get all releases and find the latest SDL2_mixer version (not SDL3_mixer)
+    response = requests.get("https://api.github.com/repos/libsdl-org/SDL_mixer/releases")
+    releases = response.json()
+    
+    # Find the latest SDL2_mixer release (version starting with "2.")
+    versionNo = None
+    for release in releases:
+        version = release["name"]
+        if version.startswith("2."):
+            versionNo = version
+            break
+    
+    if versionNo is None:
+        print("Error: Could not find any SDL2_mixer releases")
+        exit()
 
     if os.path.exists(f'{os.getcwd()}/../DrEngine/vendor/SDL2_mixer'):
         f = open(f'{os.getcwd()}/../DrEngine/vendor/SDL2_mixer/version.txt')
@@ -328,6 +450,20 @@ def DownloadSDLmixer():
 
     url = f'https://github.com/libsdl-org/SDL_mixer/releases/download/release-{versionNo}/SDL2_mixer-devel-{versionNo}-VC.zip'
     req = requests.get(url)
+
+    # Check if the request was successful
+    if req.status_code != 200:
+        print(f'Error downloading SDL2_mixer: HTTP {req.status_code}')
+        print(f'Response content: {req.text[:500]}')
+        exit()
+
+    # Check if we actually got a ZIP file
+    if not req.content.startswith(b'PK'):
+        print('Error: Downloaded SDL2_mixer content is not a ZIP file')
+        print(f'Content type: {req.headers.get("content-type", "unknown")}')
+        print(f'Content length: {len(req.content)}')
+        print(f'First 100 bytes: {req.content[:100]}')
+        exit()
 
     filename = url.split('/')[-1]
 
